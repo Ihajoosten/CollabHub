@@ -3,7 +3,7 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 // Custom Modules
-import { AuthModule } from './modules/auth/auth.module';
+import { AuthModule } from './modules/auth//auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { KanbanModule } from './modules/kanban/kanban.module';
 import { ScrumModule } from './modules/scrum/scrum.module';
@@ -16,7 +16,6 @@ import { DatabaseModule } from './database/database.module';
 import { WebsocketsModule } from './shared/websockets/websockets.module';
 import { EmailModule } from './shared/email/email.module';
 import { SearchModule } from './shared/search/search.module';
-import { LoggingModule } from './shared/logging/logging.module';
 import { SecurityModule } from './shared/security/security.module';
 import { CachingModule } from './shared/caching/caching.module';
 
@@ -26,6 +25,7 @@ import * as cors from 'cors';
 
 @Module({
   imports: [
+    DatabaseModule,
     ConfigModule.forRoot({ isGlobal: true }),
     AuthModule,
     UsersModule,
@@ -35,12 +35,10 @@ import * as cors from 'cors';
     TeamsModule,
     AnalyticsModule,
     WebsocketsModule,
-    DatabaseModule,
     NotificationsModule,
     FilesModule,
     EmailModule,
     SearchModule,
-    LoggingModule,
     SecurityModule,
     CachingModule,
   ],
