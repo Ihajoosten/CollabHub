@@ -1,5 +1,10 @@
 import { Sequelize } from 'sequelize-typescript';
-import { SEQUELIZE, DEVELOPMENT, TEST, PRODUCTION } from '../common/constants';
+import {
+  SEQUELIZE,
+  DEVELOPMENT,
+  TEST,
+  PRODUCTION,
+} from '../../common/constants';
 import { databaseConfig } from './database.config';
 import { User } from 'src/modules/users/user.entity';
 
