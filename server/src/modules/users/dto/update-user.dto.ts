@@ -1,17 +1,17 @@
 import {
   IsEmail,
   IsString,
-  IsPhoneNumber,
-  IsDate,
   IsBoolean,
   IsEnum,
   IsOptional,
   MinLength,
   MaxLength,
   Matches,
+  IsDateString,
 } from 'class-validator';
 import { GenderType } from '../interfaces/user.interface';
 import { IUpdateUserDto } from '../interfaces/dto/update-user.dto';
+import { ToPhone } from 'src/common/decorators/to-phone.decorator';
 
 export class UpdateUserDto implements IUpdateUserDto {
   @IsOptional()
@@ -40,17 +40,15 @@ export class UpdateUserDto implements IUpdateUserDto {
   @IsString()
   @MinLength(8, { message: 'password has min length of 8' })
   @MaxLength(255, { message: 'password has max length of 255' })
-  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-    message: 'password too weak',
-  })
+  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, { message: 'password too weak', })
   password?: string;
 
   @IsOptional()
-  @IsPhoneNumber('NL')
+  @ToPhone
   phone?: string;
 
   @IsOptional()
-  @IsDate()
+  @IsDateString()
   birthday?: Date;
 
   @IsOptional()

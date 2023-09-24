@@ -23,12 +23,12 @@ export class UsersController {
     @Inject(IUserService) private readonly userService: IUserService,
   ) { }
 
-  @Post('create')
-  @UsePipes(new ValidationPipe())
-  async createUser(@Body() createUserDto: CreateUserDto): Promise<IUser> {
-    const user = await this.userService.createUser(createUserDto);
-    return user;
-  }
+  // @Post('create')
+  // @UsePipes(new ValidationPipe())
+  // async createUser(@Body() createUserDto: CreateUserDto): Promise<IUser> {
+  //   const user = await this.userService.createUser(createUserDto);
+  //   return user;
+  // }
 
   @Get(':id')
   async findUser(@Param('id') id: number): Promise<IUser> {

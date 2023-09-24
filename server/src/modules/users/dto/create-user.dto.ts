@@ -1,16 +1,16 @@
 import {
   IsEmail,
   IsString,
-  IsPhoneNumber,
-  IsDate,
   IsBoolean,
   IsEnum,
   MinLength,
   MaxLength,
   Matches,
+  IsDateString,
 } from 'class-validator';
 import { ICreateUserDto } from '../interfaces/dto/create-user.dto';
 import { GenderType } from '../interfaces/user.interface';
+import { ToPhone } from 'src/common/decorators/to-phone.decorator';
 
 export class CreateUserDto implements ICreateUserDto {
   @IsString()
@@ -34,15 +34,13 @@ export class CreateUserDto implements ICreateUserDto {
   @IsString()
   @MinLength(8, { message: 'password has min length of 8' })
   @MaxLength(255, { message: 'password has max length of 255' })
-  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-    message: 'password too weak',
-  })
+  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, { message: 'password too weak', })
   password: string;
 
-  @IsPhoneNumber('NL')
+  @ToPhone
   phone: string;
 
-  @IsDate()
+  @IsDateString()
   birthday: Date;
 
   @IsEnum(GenderType)
