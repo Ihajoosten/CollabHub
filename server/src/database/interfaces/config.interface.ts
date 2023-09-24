@@ -1,13 +1,13 @@
 export interface IDatabaseConfigAttributes {
-  username: NonNullable<string>;
-  password: NonNullable<string>;
-  database: NonNullable<string>;
-  host: NonNullable<string>;
-  port: NonNullable<number> | NonNullable<string>;
-  dialect: NonNullable<string>;
-  urlDatabase: NonNullable<string>;
-  synchronization: NonNullable<boolean>;
-  define: NonNullable<Object>;
+  username?: string;
+  password?: string;
+  database?: string;
+  host?: string;
+  port?: number | string;
+  dialect?: string;
+  urlDatabase?: string;
+  synchronization?: boolean;
+  define?: Object;
 }
 
 export interface IDatabaseConfig {
