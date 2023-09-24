@@ -36,3 +36,77 @@ This project is licensed under the [MIT License](LICENSE).
 ---
 
 CollabHub is more than just a collaboration tool; it's a dynamic ecosystem that bridges the gap between project management and community building. Whether you're part of a small team or a large organization, CollabHub empowers you to work efficiently, embrace Agile practices, and connect with a community of like-minded individuals. Join the CollabHub revolution and unlock the true potential of collaborative teamwork.
+
+---
+
+# Frontend Setup
+
+## Installation
+
+```bash
+$ npm install
+```
+
+### Compiles and hot-reloads for development
+
+```bash
+$ npm run serve
+```
+
+### Compiles and minifies for production
+
+```bash
+$ npm run build
+```
+
+### Lints and fixes files
+
+```bash
+$ npm run lint
+```
+
+---
+
+# Backend Setup
+
+## Installation
+
+```bash
+$ cd server
+$ npm install
+```
+
+## Running the app
+
+```bash
+# development
+$ npm run start
+
+# watch mode
+$ npm run start:dev
+
+# production mode
+$ npm run start:prod
+```
+
+## Test
+
+```bash
+# unit tests
+$ npm run test
+
+# e2e tests
+$ npm run test:e2e
+
+# test coverage
+$ npm run test:cov
+```
+
+## Stay in touch
+
+- Author - [Luc Joosten](https://github.com/Ihajoosten)
+- Website - [https://lucjoosten.nl/](https://lucjoosten.nl/)
+
+## License
+
+CollabHub is [MIT licensed](LICENSE).
