@@ -4,11 +4,15 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
 import { AppModule } from './app.module';
+import { LoggingExceptionFilter } from './common/filters/logging-exception.filter';
+import { LoggerService } from './common/logger/logger.service';
+
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.setGlobalPrefix('api/v1');
   app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalFilters(new LoggingExceptionFilter(new LoggerService()));
 
   const config = new DocumentBuilder()
     .setTitle('CollabHub API')

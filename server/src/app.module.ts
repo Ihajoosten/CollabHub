@@ -16,7 +16,6 @@ import { DatabaseModule } from './database/database.module';
 import { WebsocketsModule } from './shared/websockets/websockets.module';
 import { EmailModule } from './shared/email/email.module';
 import { SearchModule } from './shared/search/search.module';
-import { LoggingModule } from './shared/logging/logging.module';
 import { SecurityModule } from './shared/security/security.module';
 import { CachingModule } from './shared/caching/caching.module';
 
@@ -40,7 +39,6 @@ import * as cors from 'cors';
     FilesModule,
     EmailModule,
     SearchModule,
-    LoggingModule,
     SecurityModule,
     CachingModule,
   ],
