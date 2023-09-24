@@ -16,12 +16,12 @@ import { DatabaseModule } from './core/database/database.module';
 import { WebsocketsModule } from './core/websockets/websockets.module';
 import { EmailModule } from './core/email/email.module';
 import { SearchModule } from './core/search/search.module';
-import { SecurityModule } from './core/security/security.module';
 import { CachingModule } from './core/caching/caching.module';
 
 // Custom imports
 import * as express from 'express';
 import * as cors from 'cors';
+import { RateLimitMiddleware } from './common/middleware/rate-limit.middleware';
 
 @Module({
   imports: [
@@ -39,12 +39,14 @@ import * as cors from 'cors';
     FilesModule,
     EmailModule,
     SearchModule,
-    SecurityModule,
     CachingModule,
   ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
+    // Enable ratelimiter
+    consumer.apply(RateLimitMiddleware).forRoutes('*');
+
     // Enable CORS for all routes
     consumer.apply(express.json()).forRoutes('*');
     consumer.apply(express.urlencoded({ extended: true })).forRoutes('*');
