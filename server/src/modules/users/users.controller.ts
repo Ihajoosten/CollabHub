@@ -5,26 +5,29 @@ import {
   Inject,
   Param,
   Put,
-  Logger,
   NotFoundException,
   Delete,
   Get,
   ConflictException,
+  UsePipes,
 } from '@nestjs/common';
 import { IUser } from './interfaces/user.interface';
 import { IUserService } from './interfaces/user-service.interface';
-import { ICreateUserDto } from './interfaces/dto/create-user.dto';
-import { IUpdateUserDto } from './interfaces/dto/update-user.dto';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { ValidationPipe } from 'src/common/pipes/validation.pipe';
 
 @Controller('users')
 export class UsersController {
   constructor(
     @Inject(IUserService) private readonly userService: IUserService,
-  ) {}
+  ) { }
 
   @Post('create')
-  async createUser(@Body() createUserDto: ICreateUserDto): Promise<IUser> {
-    return this.userService.createUser(createUserDto);
+  @UsePipes(new ValidationPipe())
+  async createUser(@Body() createUserDto: CreateUserDto): Promise<IUser> {
+    const user = await this.userService.createUser(createUserDto);
+    return user;
   }
 
   @Get(':id')
@@ -48,9 +51,10 @@ export class UsersController {
   }
 
   @Put(':id/update')
+  @UsePipes(new ValidationPipe())
   async updateUser(
     @Param('id') id: number,
-    @Body() updateUserDto: IUpdateUserDto,
+    @Body() updateUserDto: UpdateUserDto,
   ): Promise<IUser> {
     const updatedUser = await this.userService.updateUser(+id, updateUserDto);
 

@@ -1,4 +1,4 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { USER_REPOSITORY } from 'src/common/constants';
 import { User } from './user.entity';
 import { IUserService } from './interfaces/user-service.interface';
@@ -8,7 +8,7 @@ import { IUser } from './interfaces/user.interface';
 export class UserService implements IUserService {
   constructor(
     @Inject(USER_REPOSITORY) private readonly userRepo: typeof User,
-  ) {}
+  ) { }
 
   async createUser(user: IUser): Promise<IUser> {
     return await this.userRepo.create<User>(user);
