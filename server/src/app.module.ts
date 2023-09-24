@@ -1,4 +1,8 @@
-import { Module } from '@nestjs/common';
+// NestJS Modules
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+
+// Custom Modules
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { KanbanModule } from './modules/kanban/kanban.module';
@@ -16,8 +20,13 @@ import { LoggingModule } from './shared/logging/logging.module';
 import { SecurityModule } from './shared/security/security.module';
 import { CachingModule } from './shared/caching/caching.module';
 
+// Custom imports
+import * as express from 'express';
+import * as cors from 'cors';
+
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     AuthModule,
     UsersModule,
     KanbanModule,
@@ -35,6 +44,12 @@ import { CachingModule } from './shared/caching/caching.module';
     SecurityModule,
     CachingModule,
   ],
-  providers: [],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    // Enable CORS for all routes
+    consumer.apply(express.json()).forRoutes('*');
+    consumer.apply(express.urlencoded({ extended: true })).forRoutes('*');
+    consumer.apply(cors()).forRoutes('*');
+  }
+}
