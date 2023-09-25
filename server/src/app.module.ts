@@ -22,6 +22,7 @@ import { CachingModule } from './core/caching/caching.module';
 import * as express from 'express';
 import * as cors from 'cors';
 import { RateLimitMiddleware } from './common/middleware/rate-limit.middleware';
+import { TeamUsersModule } from './modules/team-users/team-users.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { RateLimitMiddleware } from './common/middleware/rate-limit.middleware';
     EmailModule,
     SearchModule,
     CachingModule,
+    TeamUsersModule,
   ],
 })
 export class AppModule implements NestModule {
