@@ -1,5 +1,5 @@
-import { ICreateUserDto } from './dto/create-user.dto';
-import { IUpdateUserDto } from './dto/update-user.dto';
+import { ICreateUserDto } from './dto/create-user.dto.interface';
+import { IUpdateUserDto } from './dto/update-user.dto.interface';
 import { IUser } from './user.interface';
 
 export interface IUserService {

@@ -1,6 +1,6 @@
 import {
+  UseGuards,
   Controller,
-  Post,
   Body,
   Inject,
   Param,
@@ -13,24 +13,33 @@ import {
 } from '@nestjs/common';
 import { IUser } from './interfaces/user.interface';
 import { IUserService } from './interfaces/user-service.interface';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ValidationPipe } from 'src/common/pipes/validation.pipe';
+import {
+  ApiBearerAuth,
+  ApiForbiddenResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiTags,
+  ApiUnprocessableEntityResponse,
+} from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 
+@ApiTags('User')
 @Controller('users')
 export class UsersController {
   constructor(
     @Inject(IUserService) private readonly userService: IUserService,
-  ) { }
-
-  // @Post('create')
-  // @UsePipes(new ValidationPipe())
-  // async createUser(@Body() createUserDto: CreateUserDto): Promise<IUser> {
-  //   const user = await this.userService.createUser(createUserDto);
-  //   return user;
-  // }
+  ) {}
 
   @Get(':id')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiOkResponse({ description: 'The resource was returned successfully' })
+  @ApiForbiddenResponse({ description: 'Unauthorized Request' })
+  @ApiNotFoundResponse({
+    description: 'Resource not found: User was not found',
+  })
   async findUser(@Param('id') id: number): Promise<IUser> {
     const user = await this.userService.findById(+id);
 
@@ -41,6 +50,13 @@ export class UsersController {
   }
 
   @Get()
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiOkResponse({ description: 'The resource was returned successfully' })
+  @ApiForbiddenResponse({ description: 'Unauthorized Request' })
+  @ApiNotFoundResponse({
+    description: 'Resource not found: Users were not found',
+  })
   async findUsers(): Promise<Array<IUser>> {
     const users = await this.userService.findAll();
 
@@ -51,7 +67,13 @@ export class UsersController {
   }
 
   @Put(':id/update')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @UsePipes(new ValidationPipe())
+  @ApiOkResponse({ description: 'The resource was updated successfully' })
+  @ApiNotFoundResponse({ description: 'Resource not found' })
+  @ApiForbiddenResponse({ description: 'Unauthorized Request' })
+  @ApiUnprocessableEntityResponse({ description: 'Bad Request' })
   async updateUser(
     @Param('id') id: number,
     @Body() updateUserDto: UpdateUserDto,
@@ -64,6 +86,11 @@ export class UsersController {
   }
 
   @Delete(':id/delete')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiOkResponse({ description: 'The resource was returned successfully' })
+  @ApiForbiddenResponse({ description: 'Unauthorized Request' })
+  @ApiNotFoundResponse({ description: 'Resource not found' })
   remove(@Param('id') id: number): Promise<boolean> {
     const deleted = this.userService.deleteUser(+id);
 

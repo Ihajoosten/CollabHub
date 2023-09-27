@@ -12,16 +12,17 @@ import { TeamsModule } from './modules/teams/teams.module';
 import { AnalyticsModule } from './modules/analytics/analytics.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { FilesModule } from './modules/files/files.module';
-import { DatabaseModule } from './database/database.module';
-import { WebsocketsModule } from './shared/websockets/websockets.module';
-import { EmailModule } from './shared/email/email.module';
-import { SearchModule } from './shared/search/search.module';
-import { SecurityModule } from './shared/security/security.module';
-import { CachingModule } from './shared/caching/caching.module';
+import { DatabaseModule } from './core/database/database.module';
+import { WebsocketsModule } from './core/websockets/websockets.module';
+import { EmailModule } from './core/email/email.module';
+import { SearchModule } from './core/search/search.module';
+import { CachingModule } from './core/caching/caching.module';
 
 // Custom imports
 import * as express from 'express';
 import * as cors from 'cors';
+import { RateLimitMiddleware } from './common/middleware/rate-limit.middleware';
+import { TeamUsersModule } from './modules/team-users/team-users.module';
 
 @Module({
   imports: [
@@ -39,12 +40,15 @@ import * as cors from 'cors';
     FilesModule,
     EmailModule,
     SearchModule,
-    SecurityModule,
     CachingModule,
+    TeamUsersModule,
   ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
+    // Enable ratelimiter
+    consumer.apply(RateLimitMiddleware).forRoutes('*');
+
     // Enable CORS for all routes
     consumer.apply(express.json()).forRoutes('*');
     consumer.apply(express.urlencoded({ extended: true })).forRoutes('*');

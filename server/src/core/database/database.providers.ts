@@ -1,7 +1,14 @@
 import { Sequelize } from 'sequelize-typescript';
-import { SEQUELIZE, DEVELOPMENT, TEST, PRODUCTION } from '../common/constants';
+import {
+  SEQUELIZE,
+  DEVELOPMENT,
+  TEST,
+  PRODUCTION,
+} from '../../common/constants';
 import { databaseConfig } from './database.config';
 import { User } from 'src/modules/users/user.entity';
+import { Team } from 'src/modules/teams/team.entity';
+import { TeamUser } from 'src/modules/team-users/team-user.entity';
 
 // Entitites
 export const databaseProviders = [
@@ -23,7 +30,7 @@ export const databaseProviders = [
           config = databaseConfig.development;
       }
       const sequelize = new Sequelize(config);
-      sequelize.addModels([User]);
+      sequelize.addModels([User, Team, TeamUser]);
       await sequelize.sync();
       return sequelize;
     },
