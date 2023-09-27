@@ -18,6 +18,7 @@ import { UpdateTeamUserDto } from './dto/update-team-user.dto';
 import { ITeamUser } from './interfaces/team-user.interface';
 import { IUser } from '../users/interfaces/user.interface';
 import {
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiForbiddenResponse,
   ApiNotFoundResponse,
@@ -37,6 +38,7 @@ export class TeamUserController {
   ) {}
 
   @Post()
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @UsePipes(new ValidationPipe())
   @ApiCreatedResponse({ description: 'Created new TeamUser Succesfully' })
@@ -53,6 +55,7 @@ export class TeamUserController {
   }
 
   @Get('user/:userId')
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ description: 'The resource was returned successfully' })
   @ApiForbiddenResponse({ description: 'Unauthorized Request' })
@@ -66,6 +69,7 @@ export class TeamUserController {
   }
 
   @Get('team/:teamId')
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ description: 'The resource was returned successfully' })
   @ApiForbiddenResponse({ description: 'Unauthorized Request' })
@@ -80,6 +84,7 @@ export class TeamUserController {
   }
 
   @Put(':id')
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @UsePipes(new ValidationPipe())
   @ApiOkResponse({ description: 'The resource was updated successfully' })
@@ -101,6 +106,7 @@ export class TeamUserController {
 
   @Delete('/team/:teamId/user/:userId')
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse({ description: 'The resource was deleted successfully' })
   @ApiForbiddenResponse({ description: 'Unauthorized Request' })
   @ApiNotFoundResponse({ description: 'Resource not found' })

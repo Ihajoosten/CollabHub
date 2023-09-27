@@ -7,10 +7,9 @@ import {
   ForeignKey,
 } from 'sequelize-typescript';
 import { ITeam } from './interfaces/team.interface';
-import { table } from 'console';
 import { User } from '../users/user.entity';
 
-@table
+@Table
 export class Team extends Model<Team> implements ITeam {
   @Column({ type: DataType.STRING, allowNull: false })
   name: string;

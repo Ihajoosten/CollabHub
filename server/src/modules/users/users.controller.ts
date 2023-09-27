@@ -1,6 +1,6 @@
 import {
+  UseGuards,
   Controller,
-  Post,
   Body,
   Inject,
   Param,
@@ -16,12 +16,14 @@ import { IUserService } from './interfaces/user-service.interface';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ValidationPipe } from 'src/common/pipes/validation.pipe';
 import {
+  ApiBearerAuth,
   ApiForbiddenResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiTags,
   ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 
 @ApiTags('User')
 @Controller('users')
@@ -31,6 +33,8 @@ export class UsersController {
   ) {}
 
   @Get(':id')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ description: 'The resource was returned successfully' })
   @ApiForbiddenResponse({ description: 'Unauthorized Request' })
   @ApiNotFoundResponse({
@@ -46,6 +50,8 @@ export class UsersController {
   }
 
   @Get()
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ description: 'The resource was returned successfully' })
   @ApiForbiddenResponse({ description: 'Unauthorized Request' })
   @ApiNotFoundResponse({
@@ -61,6 +67,8 @@ export class UsersController {
   }
 
   @Put(':id/update')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @UsePipes(new ValidationPipe())
   @ApiOkResponse({ description: 'The resource was updated successfully' })
   @ApiNotFoundResponse({ description: 'Resource not found' })
@@ -78,6 +86,8 @@ export class UsersController {
   }
 
   @Delete(':id/delete')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ description: 'The resource was returned successfully' })
   @ApiForbiddenResponse({ description: 'Unauthorized Request' })
   @ApiNotFoundResponse({ description: 'Resource not found' })

@@ -52,8 +52,10 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('CollabHub API')
+    .setLicense('MIT', 'https://opensource.org/license/mit/')
     .setDescription('The CollabHub API Swagger Documentation')
     .setVersion('0.1')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

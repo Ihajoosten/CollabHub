@@ -13,6 +13,7 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import {
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiForbiddenResponse,
   ApiNotFoundResponse,
@@ -23,7 +24,6 @@ import {
 import { ITeamService } from './interfaces/team-service.interface';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
-import { Team } from './team.entity';
 import { ValidationPipe } from 'src/common/pipes/validation.pipe';
 import { ITeam } from './interfaces/team.interface';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
@@ -36,6 +36,7 @@ export class TeamController {
   ) {}
 
   @Post()
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @UsePipes(new ValidationPipe())
   @ApiCreatedResponse({ description: 'Created new TeamUser Succesfully' })
@@ -49,6 +50,7 @@ export class TeamController {
   }
 
   @Get(':id/fetch')
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ description: 'The resource was returned successfully' })
   @ApiForbiddenResponse({ description: 'Unauthorized Request' })
@@ -63,6 +65,7 @@ export class TeamController {
   }
 
   @Get()
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ description: 'The resource was returned successfully' })
   @ApiForbiddenResponse({ description: 'Unauthorized Request' })
@@ -79,6 +82,7 @@ export class TeamController {
   }
 
   @Put(':id/update')
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @UsePipes(new ValidationPipe())
   @ApiOkResponse({ description: 'The resource was updated successfully' })
@@ -96,6 +100,7 @@ export class TeamController {
   }
 
   @Delete(':id/delete')
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ description: 'The resource was deleted successfully' })
   @ApiForbiddenResponse({ description: 'Unauthorized Request' })
