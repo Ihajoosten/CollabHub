@@ -32,7 +32,7 @@ export class TeamUser extends Model<TeamUser> implements ITeamUser {
   })
   role: TeamRoleType;
 
-  @Column({ type: DataType.DATE, allowNull: false })
+  @Column({ type: DataType.DATE, allowNull: false, defaultValue: DataType.NOW })
   joinedAt: Date;
 
   // Define associations with Team and User

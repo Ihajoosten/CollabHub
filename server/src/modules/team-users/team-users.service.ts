@@ -17,7 +17,6 @@ export class TeamUserService implements ITeamUserService {
   async createTeamUser(
     createTeamUserDto: ICreateTeamUserDto,
   ): Promise<TeamUser> {
-    createTeamUserDto.joinedAt = new Date(Date.now().toLocaleString());
     const teamUser = await this.teamUserRepo.create(createTeamUserDto);
     return !teamUser ? null : teamUser;
   }

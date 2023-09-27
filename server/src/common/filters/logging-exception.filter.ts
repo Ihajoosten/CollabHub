@@ -32,37 +32,49 @@ export class LoggingExceptionFilter implements ExceptionFilter {
         : HttpStatus.INTERNAL_SERVER_ERROR;
 
     // Capture the error message
-    // const errorMessage = exception instanceof HttpException ? exception.getResponse() : 'Internal Server Error';
+    // const errorMessage = exception instanceof HttpException ? JSON.stringify(exception.getResponse()) : 'Internal Server Error';
 
     let errorMessage = 'Internal Server Error';
 
     // Handle specific exceptions
     if (exception instanceof NotFoundException) {
-      errorMessage = `Resource not found :: ${exception.getResponse()} `;
+      errorMessage = `Resource not found :: ${JSON.stringify(
+        exception.getResponse(),
+      )} `;
       status = HttpStatus.NOT_FOUND;
     } else if (exception instanceof UnauthorizedException) {
-      errorMessage = `Unauthorized :: ${exception.getResponse()} `;
+      errorMessage = `Unauthorized :: ${JSON.stringify(
+        exception.getResponse(),
+      )} `;
       status = HttpStatus.UNAUTHORIZED;
     } else if (exception instanceof ForbiddenException) {
-      errorMessage = `Forbidden :: ${exception.getResponse()} `;
+      errorMessage = `Forbidden :: ${JSON.stringify(exception.getResponse())} `;
       status = HttpStatus.FORBIDDEN;
     } else if (exception instanceof BadRequestException) {
-      errorMessage = `Bad Request :: ${exception.getResponse()} `;
+      errorMessage = `Bad Request :: ${JSON.stringify(
+        JSON.stringify(exception.getResponse()),
+      )} `;
       status = HttpStatus.BAD_REQUEST;
     } else if (exception instanceof InternalServerErrorException) {
-      errorMessage = `Internal server Error :: ${exception.getResponse()} `;
+      errorMessage = `Internal server Error :: ${JSON.stringify(
+        exception.getResponse(),
+      )} `;
       status = HttpStatus.INTERNAL_SERVER_ERROR;
     } else if (exception instanceof NotAcceptableException) {
-      errorMessage = `Not Acceptable :: ${exception.getResponse()} `;
+      errorMessage = `Not Acceptable :: ${JSON.stringify(
+        exception.getResponse(),
+      )} `;
       status = HttpStatus.NOT_ACCEPTABLE;
     } else if (exception instanceof ConflictException) {
-      errorMessage = `Conflict :: ${exception.getResponse()} `;
+      errorMessage = `Conflict :: ${JSON.stringify(exception.getResponse())} `;
       status = HttpStatus.CONFLICT;
     } else if (exception instanceof GoneException) {
-      errorMessage = `Gone :: ${exception.getResponse()} `;
+      errorMessage = `Gone :: ${JSON.stringify(exception.getResponse())} `;
       status = HttpStatus.GONE;
     } else if (exception instanceof ServiceUnavailableException) {
-      errorMessage = `Service Unavailable :: ${exception.getResponse()} `;
+      errorMessage = `Service Unavailable :: ${JSON.stringify(
+        exception.getResponse(),
+      )} `;
       status = HttpStatus.SERVICE_UNAVAILABLE;
     }
 

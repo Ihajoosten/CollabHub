@@ -42,6 +42,7 @@ export class TeamService implements ITeamService {
 
     if (!team) return null;
 
+    updateTeamDto.lastActivity = new Date(Date.now());
     const result = await team.update(updateTeamDto);
     return !result ? null : result;
   }

@@ -20,7 +20,7 @@ export class Team extends Model<Team> implements ITeam {
   @Column({ type: DataType.BOOLEAN, allowNull: false })
   isPublic: boolean;
 
-  @Column({ type: DataType.STRING, allowNull: false })
+  @Column({ type: DataType.STRING, allowNull: true })
   imageUrl: string;
 
   @ForeignKey(() => User)
@@ -28,7 +28,7 @@ export class Team extends Model<Team> implements ITeam {
   ownerId: number;
 
   @Column({ type: DataType.ARRAY(DataType.STRING), allowNull: false })
-  tags: string[]; // Array of tags associated with the team
+  tags: Array<string>;
 
   @Column({ type: DataType.INTEGER, allowNull: true })
   memberCount?: number;
@@ -50,7 +50,7 @@ export class Team extends Model<Team> implements ITeam {
 
   // Define association with owner user
   @BelongsTo(() => User, {
-    foreignKey: 'teamId',
+    foreignKey: 'ownerId',
     targetKey: 'id',
   })
   owner: User;

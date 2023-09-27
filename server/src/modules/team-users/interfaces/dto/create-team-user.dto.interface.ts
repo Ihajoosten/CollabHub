@@ -4,5 +4,4 @@ export interface ICreateTeamUserDto {
   teamId: number;
   userId: number;
   role: TeamRoleType;
-  joinedAt: Date;
 }

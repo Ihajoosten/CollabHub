@@ -23,7 +23,7 @@ export class CreateTeamDto implements ICreateTeamDto {
 
   @IsNotEmpty()
   @IsInt()
-  ownerUserId: number;
+  ownerId: number;
 
   @IsNotEmpty()
   @IsArray()
