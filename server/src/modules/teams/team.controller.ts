@@ -9,6 +9,7 @@ import {
   Post,
   Put,
   UnprocessableEntityException,
+  UseGuards,
   UsePipes,
 } from '@nestjs/common';
 import {
@@ -25,6 +26,7 @@ import { UpdateTeamDto } from './dto/update-team.dto';
 import { Team } from './team.entity';
 import { ValidationPipe } from 'src/common/pipes/validation.pipe';
 import { ITeam } from './interfaces/team.interface';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 
 @ApiTags('Team')
 @Controller('teams')
@@ -34,6 +36,7 @@ export class TeamController {
   ) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   @UsePipes(new ValidationPipe())
   @ApiCreatedResponse({ description: 'Created new TeamUser Succesfully' })
   @ApiUnprocessableEntityResponse({ description: 'Bad Request' })
@@ -46,6 +49,7 @@ export class TeamController {
   }
 
   @Get(':id/fetch')
+  @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ description: 'The resource was returned successfully' })
   @ApiForbiddenResponse({ description: 'Unauthorized Request' })
   @ApiNotFoundResponse({ description: 'Resource not found: team not found' })
@@ -58,7 +62,24 @@ export class TeamController {
     return team;
   }
 
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  @ApiOkResponse({ description: 'The resource was returned successfully' })
+  @ApiForbiddenResponse({ description: 'Unauthorized Request' })
+  @ApiNotFoundResponse({
+    description: 'Resource not found: Teams were not found',
+  })
+  async findTeams(): Promise<Array<ITeam>> {
+    const teams = await this.teamService.findAllTeams();
+
+    if (!teams || teams.length === 0)
+      throw new NotFoundException(`There are currently no Teams existing!`);
+
+    return teams;
+  }
+
   @Put(':id/update')
+  @UseGuards(JwtAuthGuard)
   @UsePipes(new ValidationPipe())
   @ApiOkResponse({ description: 'The resource was updated successfully' })
   @ApiNotFoundResponse({ description: 'Resource not found' })
@@ -75,6 +96,7 @@ export class TeamController {
   }
 
   @Delete(':id/delete')
+  @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ description: 'The resource was deleted successfully' })
   @ApiForbiddenResponse({ description: 'Unauthorized Request' })
   @ApiNotFoundResponse({ description: 'Resource not found' })

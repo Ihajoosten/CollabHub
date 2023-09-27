@@ -9,6 +9,7 @@ import {
   Post,
   Put,
   UnprocessableEntityException,
+  UseGuards,
   UsePipes,
 } from '@nestjs/common';
 import { ITeamUserService } from './interfaces/team-user-service.interface';
@@ -25,6 +26,7 @@ import {
   ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
 import { ValidationPipe } from 'src/common/pipes/validation.pipe';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 
 @ApiTags('TeamUser')
 @Controller('team-users')
@@ -35,6 +37,7 @@ export class TeamUserController {
   ) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   @UsePipes(new ValidationPipe())
   @ApiCreatedResponse({ description: 'Created new TeamUser Succesfully' })
   @ApiUnprocessableEntityResponse({ description: 'Bad Request' })
@@ -50,6 +53,7 @@ export class TeamUserController {
   }
 
   @Get('user/:userId')
+  @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ description: 'The resource was returned successfully' })
   @ApiForbiddenResponse({ description: 'Unauthorized Request' })
   @ApiNotFoundResponse({ description: 'Resource not found: user has no teams' })
@@ -62,6 +66,7 @@ export class TeamUserController {
   }
 
   @Get('team/:teamId')
+  @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ description: 'The resource was returned successfully' })
   @ApiForbiddenResponse({ description: 'Unauthorized Request' })
   @ApiNotFoundResponse({ description: 'Resource not found: team has no users' })
@@ -75,6 +80,7 @@ export class TeamUserController {
   }
 
   @Put(':id')
+  @UseGuards(JwtAuthGuard)
   @UsePipes(new ValidationPipe())
   @ApiOkResponse({ description: 'The resource was updated successfully' })
   @ApiNotFoundResponse({ description: 'Resource not found' })
@@ -94,6 +100,7 @@ export class TeamUserController {
   }
 
   @Delete('/team/:teamId/user/:userId')
+  @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ description: 'The resource was deleted successfully' })
   @ApiForbiddenResponse({ description: 'Unauthorized Request' })
   @ApiNotFoundResponse({ description: 'Resource not found' })
